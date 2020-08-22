@@ -19,8 +19,10 @@ def get_apod():
     }
     response: Response = requests.get(URL_APOD, params=params)
 
-    image_path = json.loads(response.text)['url']
-    image_description = json.loads(response.text)['explanation']
+    json_content = json.loads(response.text)
+
+    image_path = json_content['url']
+    image_description = json_content['explanation']
 
     response = requests.get(image_path)
     image_bytes = io.BytesIO(response.content)
@@ -32,9 +34,17 @@ def get_apod():
 
 
 def print_photo_information(current_date: str, image_description: str):
-    print('Current date: ' + current_date + '\n\n')
-    print('Image description: ' + '\n')
-    print(image_description + '\n\n')
+
+    message: str = f'''Current date: {current_date}
+
+    Image description: 
+
+    {image_description}
+
+    '''
+
+    print(message)
+
     input('Press Enter to continue...')
 
 
